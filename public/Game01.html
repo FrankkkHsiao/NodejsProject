@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game</title>
+    <script src="../lib/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+    <style>
+        #rect {
+            position: relative;
+            width: 631px;
+            height: 631px;
+            background-color: #b0e9ff;
+        }
+
+        .ball {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 1px solid black;
+            background-color: #ff2f27;
+            text-align: center;
+            line-height: 70px;
+            font-size: 46px;
+            /* left: 750px;
+            top: 750px; */
+            /* transition: 100ms; */
+            /* pointer-events: none; */
+            /* 不感應滑鼠  */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbardiv"></div>
+
+    <div id="rect">
+        <!-- <div class="ball"></div> -->
+    </div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        $.get('AJAX/navbar.html', function (data) {
+            $('#navbardiv').html(data);
+        });
+    </script>
+    <script>
+        var levelTime = 2000;
+        setBallTime = setInterval(creatBall, levelTime);
+
+        var doc = $(document);
+        var ball = $(".ball");
+        var scores = 0;
+        doc.on("keydown", function (event) {
+            // console.log("keyCode",event.keyCode);
+            // console.log("which",event.which);
+            // console.log("key",event.key);
+            // console.log("code",event.code);
+            // console.log("---------------------");
+            balls.forEach(function (element) {
+                ans = $(`#ball${element}`).val();
+                if (event.key == ans) {
+                    $(`#ball${element}`).remove();
+                    delBall = balls.indexOf(element);
+                    balls.splice(delBall, 1);
+                    scores++;
+                }
+            })
+        })
+
+        var i = 0;
+        var balls = [];
+        function creatBall() {
+            if ($(".ball").length > 9) {
+                clearInterval(setBallTime);
+                alert('結束');
+                return false;
+            }
+            else {
+                i++;
+                var rect = document.getElementById('rect');
+                randomBallTop = 50 * Math.floor(Math.random() * 12);
+                randomBallLeft = 50 * Math.floor(Math.random() * 12);
+                randomNumber = Math.floor(Math.random() * 9) + 1;
+
+                var addBall = document.createElement('div');
+                addBall.className = 'ball';
+                addBall.id = `ball${i}`;
+                addBall.innerText = randomNumber;
+                addBall.value = randomNumber;
+                addBall.style.left = randomBallLeft + 'px';
+                addBall.style.top = randomBallTop + 'px';
+                rect.appendChild(addBall);
+                balls.push(i);
+
+                if (levelTime <= 400) {
+                    levelTime = 400;
+                }
+                else {
+                    levelTime = levelTime - 20;
+                }
+                clearInterval(setBallTime);
+                setBallTime = setInterval(creatBall, levelTime);
+                console.log(levelTime);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

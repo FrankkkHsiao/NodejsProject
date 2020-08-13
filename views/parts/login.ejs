@@ -1,0 +1,68 @@
+<%- include('html_head' )%>
+<link href="/bootstrap/css/signin.css" rel="stylesheet">
+<style>
+    .btndiv {
+        text-align: center;
+    }
+</style>
+<%- include('html_head_foot') %>
+
+<div class="container">
+    <div class="row" id="msg-bar" style="display: none">
+        <div class="col">
+            <div class="alert" role="alert"></div>
+        </div>
+    </div>
+    <form name="form1" class="form-signin" method="POST" onsubmit="return loginCheck()">
+        <!-- <img class="mb-4" src="{{ site.baseurl }}/docs/{{ site.docs_version }}/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"> -->
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <label for="loginAccount" class="sr-only">Account</label>
+        <input type="text" id="loginAccount" name="loginAccount" class="form-control" placeholder="Account" required
+            autofocus>
+        <label for="loginPassword" class="sr-only">Password</label>
+        <input type="password" id="loginPassword" name="loginPassword" class="form-control" placeholder="Password"
+            required>
+        <!-- <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div> -->
+        <div class="btndiv">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <a href="/memberRegister" target="_self" style="color: gray; text-decoration:underline">Sign up</a><br>
+        </div>
+
+        <!-- <p class="mt-5 mb-3 text-muted">&copy; 2017-{{ site.time | date: "%Y" }}</p> -->
+    </form>
+</div>
+
+
+<%- include('scripts') %>
+<script>
+    function loginCheck() {
+
+        var msg_bar = $('#msg-bar');
+        var msg_bar_div = msg_bar.find('.alert');
+        var btn = $('button[type=submit]');
+
+        $.post('/login', $(document.form1).serialize(), function (data) {
+            msg_bar_div.removeClass('alert-success');
+            msg_bar_div.removeClass('alert-danger');
+            if (data.success) {
+                msg_bar_div.text('登入成功');
+                msg_bar_div.addClass('alert-success');
+                setTimeout(function () {
+                    location.href = '/memberList';
+                }, 1500)
+            } else {
+                msg_bar_div.text(data.errorMsg);
+                msg_bar_div.addClass('alert-danger');
+                btn.show();
+            }
+            msg_bar.show();
+        }, 'json');
+
+        return false;
+    }
+</script>
+<%- include('html_foot') %>

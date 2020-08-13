@@ -1,0 +1,41 @@
+<script>
+    function checkForm() {
+        // TODO: 資料送出前的檢查
+        var msg_bar = $('#msg-bar');
+        var msg_bar_div = msg_bar.find('.alert');
+        var btn = $('button[type=submit]');
+
+               /////////////////// 會員名稱檢查
+        if ($('#inputName').val().length <= 4) {
+            $('#inputName').attr('class', 'form-control is-invalid');
+            msg_bar_div.text("會員名稱請至少4個字");
+            msg_bar_div.addClass('alert-danger');
+            btn.show();
+            msg_bar.show();
+            return false;
+        }
+        else {
+            $('#inputName').attr('class', 'form-control');
+            
+        }
+       
+        $.post('/memberEdit/<%= data.sid %>', $(document.form1).serialize(), function (data) {
+            msg_bar_div.removeClass('alert-success');
+            msg_bar_div.removeClass('alert-danger');
+            if (data.success) {
+                msg_bar_div.text('修改成功');
+                msg_bar_div.addClass('alert-success');
+                setTimeout(function () {
+                    location.href = '/memberList';
+                }, 1000)
+            } else {
+                msg_bar_div.text(data.errorMsg);
+                msg_bar_div.addClass('alert-danger');
+                btn.show();
+            }
+            msg_bar.show();
+        }, 'json');
+
+        return false;
+    }
+</script>

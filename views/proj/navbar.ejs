@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">Logo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item  <%= (locals.pageName && pageName==='data-list') ? 'active' : '' %>">
+                <a class="nav-link" href="/data-list">資料列表</a>
+                </li>
+                <li class="nav-item  <%= (locals.pageName && pageName==='data-insert') ? 'active' : '' %>">
+                <a class="nav-link" href="/data-insert"><i class="fas fa-pen-nib"></i>新增資料</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#">b</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#">c</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<style>
+    .navbar-nav>.nav-item.active {
+        background-color: #868dff;
+        color: white;
+        border-radius: 10px;
+    }
+</style>

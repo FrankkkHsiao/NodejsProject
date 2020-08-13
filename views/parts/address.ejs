@@ -1,0 +1,40 @@
+<script>
+    function City() {
+        var cities = <%- JSON.stringify(cities) %>;
+        // console.log(cities);
+        cities.forEach(function (val, index) {
+            // console.log(val.city)
+            // $("#city").append(`<option value= " ${index} "> ${cityname} </option>`);
+            $("#inputCity").append("<option value=\"" + val.cityNo + "\">" + val.city + "</option>");
+
+        });
+    };
+
+    function District() {
+        cityNumber = $("#inputCity").val();
+        var districts = <%- JSON.stringify(districts) %>;
+        // console.log(districts);
+        $("#inputDistrict").empty();
+        districts.forEach(function (val, index) {
+            if (val.cityNo == cityNumber) {
+                // console.log(val.district);
+                $("#inputDistrict").append("<option value=\"" + val.districtNo + "\">" + val.district + "</option>");
+
+            }
+        })
+        // $.ajax({
+        //     type: "GET",
+        //     data: { selectedCity: $("#inputCity").val() },
+        //     datatype: 'json',
+        //     url: '/memberRegister',
+        // success:function(data){
+        //     console.log(data);
+        // }
+        // });
+        autoAddress();
+    }
+    function autoAddress() {
+        $('#inputDistrictNo').val($('#inputDistrict').val());
+        $('#inputAddress').val($('#inputDistrictNo').val() + $("#inputCity").find("option:selected").text() + $("#inputDistrict").find("option:selected").text());
+    }
+</script>

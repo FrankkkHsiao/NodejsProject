@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Main Page</title>
+    <script src="../lib/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+    <link href="../bootstrap/css/form-validation.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="navbardiv"></div>
+    
+    <script>
+        $.get('AJAX/navbar.html', function (data) {
+            $('#navbardiv').html(data);
+        });
+    </script>
+ 
+    <script src="../bootstrap/js/form-validation.js"></script>
+</body>
+
+</html>

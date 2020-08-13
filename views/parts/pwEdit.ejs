@@ -1,0 +1,65 @@
+<%- include('html_head') %>
+<style>
+    body {
+        background-color: #f5f5f5;
+    }
+
+    button {
+        margin-left: 8px;
+    }
+
+    #btnEdit {
+        width: 83.7px;
+    }
+</style>
+<%- include('html_head_foot') %>
+
+<div class="container">
+    <div class="row" id="msg-bar" style="display: none">
+        <div class="col">
+            <div class="alert" role="alert"></div>
+        </div>
+    </div>
+    <div id="formdiv" class="row" style="margin-top: 60px">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Edit</h5>
+
+                    <form name="form1" id="form1" method="POST" onsubmit="return checkForm()">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="inputCity" for="inputOldPassword">輸入舊密碼 (請輸入8個字以上)</label>
+                                <input type="password" class="form-control" id="inputOldPassword" name="inputOldPassword"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="inputCity" for="inputNewPassword1">輸入新密碼 (請輸入8個字以上)</label>
+                                <input type="password" class="form-control" id="inputNewPassword1" name="inputNewPassword1"
+                                    required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="inputCity" for="inputNewPassword2">確認新密碼</label>
+                                <input type="password" class="form-control" id="inputNewPassword2" name="inputNewPassword2"
+                                    required>
+                                <div class="invalid-feedback" id="checkPw">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-end">
+                            <button type="button" class="btn btn-primary" id="btnCancel" name="btnCancel"
+                                onclick="javascript:location.href='/memberList'">CANCEL</button>
+                            <button type="submit" class="btn btn-primary" id="btnEdit" name="btnEdit">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('scripts') %>
+<%- include('pwEditCheckForm') %>
+<%- include('html_foot') %>

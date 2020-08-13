@@ -1,0 +1,87 @@
+<%- include('html_head') %>
+<%- include('html_head_foot') %>
+<%- include('navbar') %>
+<style>
+    table>tbody>tr>td>a:hover {
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="row" style="margin-top: 20px">
+        <div class="col">
+            <ul class="pagination pagination-sm">
+                <% if(locals.userPerm == 1){ %>
+                <% for( i = 1; i <= totalPages;i++){ %>
+                <li class="page-item <%= i==page ? 'active' : ''%>">
+                    <a class="page-link" href="/memberList/<%= i %>"><%= i %></a>
+                </li>
+                <% } %>
+                <% } %>
+           
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Birthday</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Created At</th>
+
+                        <% if(locals.userPerm == 1){ %>
+                        <th><i class="fas fa-user-edit"></i></th>
+                        <th> <i class="fas fa-trash"></i> </th>
+                        <% } %>
+                        <!--
+                    <th scope="col">Created at</th>
+                    -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i<rows.length; i++){
+                    let k=rows[i]; %>
+                    <tr>
+                        <td><%= k['sid'] %></td>
+                        <td><%= k['name'] %></td>
+                        <td><%= k['gender'] %></td>
+                        <td><%= k['birth'] %></td>
+                        <td><%= k['mobile'] %></td>
+                        <td><%= k['email'] %></td>
+                        <td><%= k['address'] %></td>
+                        <td><%= k['created_time'] %></td>
+
+                        <% if(locals.userPerm == 1){ %>
+                        <td><a href="/memberEdit/<%= k['sid'] %>">
+                                <i class="fas fa-user-edit"></i>
+                            </a></td>
+                        <td><a href="javascript: delete_it(<%= k['sid'] %>)">
+                                <i class="fas fa-trash"></i>
+                            </a></td>
+                        <% } %>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('scripts') %>
+
+<script>
+    function delete_it(sid) {
+        if (confirm(`確定要刪除編號${sid}的資料嗎?`)) {
+            location.href = '/memberRemove/' + sid;
+        }
+    }
+</script>
+
+<%- include('html_foot') %>

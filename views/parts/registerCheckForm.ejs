@@ -1,0 +1,105 @@
+<script>
+    function checkForm() {
+        // TODO: 資料送出前的檢查
+        /////////////////// 身份證字號檢查
+        var msg_bar = $('#msg-bar');
+        var msg_bar_div = msg_bar.find('.alert');
+        var btn = $('button[type=submit]');
+
+        IdNumber = $("#inputIdno").val();
+        IdArray = [];
+        IdRule = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
+        IdEn = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O"];
+        IdEntoNum = [];
+        sum = 0;
+        for (i = 10; i <= 35; i++) {
+            IdEntoNum[i - 10] = i.toString();
+        }
+
+        IdArray = [].slice.call(IdNumber.toUpperCase());
+        EtN = IdEntoNum[IdEn.indexOf(IdArray.shift())];
+        EtNArray = [].slice.call(EtN);
+        newEtNArray = EtNArray.concat(IdArray);
+
+        for (i = 0; i <= 10; i++) {
+            sum += parseInt(newEtNArray[i]) * parseInt(IdRule[i]);
+        }
+        if (sum % 10 != 0) {
+            $('#inputIdno').attr('class', 'form-control is-invalid');
+            msg_bar_div.text("身份證字號有誤!!");
+            msg_bar_div.addClass('alert-danger');
+            btn.show();
+            msg_bar.show();
+            return false;
+        }
+        else {
+            $('#inputIdno').attr('class', 'form-control');
+        }
+        /////////////////// 帳號檢查
+        if ($('#inputAccount').val().length < 5) {
+            $('#inputAccount').attr('class', 'form-control is-invalid');
+            msg_bar_div.text("帳號請大於5個字");
+            msg_bar_div.addClass('alert-danger');
+            btn.show();
+            msg_bar.show();
+            return false;
+        }
+        else {
+            $('#inputAccount').attr('class', 'form-control');
+        }
+        /////////////////// 會員名稱檢查
+        if ($('#inputName').val().length <= 4) {
+            $('#inputName').attr('class', 'form-control is-invalid');
+            msg_bar_div.text("會員名稱請至少4個字");
+            msg_bar_div.addClass('alert-danger');
+            btn.show();
+            msg_bar.show();
+            return false;
+        }
+        else {
+            $('#inputName').attr('class', 'form-control');
+            
+        }
+        /////////////////// 密碼檢查
+        if ($('#inputPassword1').val().length < 8) {
+            $('#inputPassword1').attr('class', 'form-control is-invalid');
+            msg_bar_div.text("密碼請大於8個字");
+            msg_bar_div.addClass('alert-danger');
+            btn.show();
+            msg_bar.show();
+            return false;
+        }
+        else if ($('#inputPassword1').val() != $('#inputPassword2').val()) {
+            $('#inputPassword1').attr('class', 'form-control is-invalid');
+            $('#inputPassword2').attr('class', 'form-control is-invalid');
+            msg_bar_div.text("密碼不一致，請重新輸入");
+            msg_bar_div.addClass('alert-danger');
+            btn.show();
+            msg_bar.show();
+            return false;
+        }
+        else {
+            $('#inputPassword1').attr('class', 'form-control');
+            $('#inputPassword2').attr('class', 'form-control');
+        }
+
+        $.post('/memberRegister', $(document.form1).serialize(), function (data) {
+            msg_bar_div.removeClass('alert-success');
+            msg_bar_div.removeClass('alert-danger');
+            if (data.success) {
+                msg_bar_div.text('新增成功');
+                msg_bar_div.addClass('alert-success');
+                setTimeout(function () {
+                    location.href = '/login';
+                }, 1000)
+            } else {
+                msg_bar_div.text(data.errorMsg);
+                msg_bar_div.addClass('alert-danger');
+                btn.show();
+            }
+            msg_bar.show();
+        }, 'json');
+
+        return false;
+    }
+</script>

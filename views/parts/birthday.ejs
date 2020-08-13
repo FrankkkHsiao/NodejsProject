@@ -1,0 +1,42 @@
+<script>
+    function getYearsnMonth() {
+        var date = new Date();
+        var year = date.getFullYear();
+        for (i = year; i >= year - 100; i--) {
+            $("#inputBirthYear").append("<option value=\"" + i + "\">" + "西元 " + i + " </option>");
+            // $("#inputBirthYear").append(`<option value= " ${i} "> ${i} </option>`);
+        }
+        for (i = 1; i <= 12; i++) {
+            $("#inputBirthMonth").append("<option value=\"" + i + "\">" + i + " 月" + "</option>");
+            // $("#inputBirthMonth").append(`<option value= " ${i} "> ${i} </option>`);
+        }
+    };
+
+    function getDaysInMonth() {
+        var days = 0;
+        birthyear = $("#inputBirthYear").val();
+        birthmonth = $("#inputBirthMonth").val();
+        if (birthmonth == 2) {
+            if (birthyear % 400 == 0 || (birthyear % 4 == 0 && birthyear % 100 != 0)) {
+                days = 29;
+            }
+            else {
+                days = 28;
+            }
+        }
+        else if (birthmonth == 4 || birthmonth == 6 || birthmonth == 9 || birthmonth == 11) {
+            days = 30;
+        }
+        else {
+            days = 31;
+        }
+
+        $("#inputBirthDay").empty();
+        // $("#inputBirthDay").append(`<option value= "" selected> 日 </option>`);
+        $("#inputBirthDay").append("<option value=\"\">" + "日" + "</option>");
+        for (i = 1; i <= days; i++) {
+            $("#inputBirthDay").append("<option value=\"" + i + "\">" + i + " 日" + "</option>");
+            // $("#inputBirthDay").append(`<option value= " ${i} "> ${i} </option>`);
+        }
+    };
+</script>

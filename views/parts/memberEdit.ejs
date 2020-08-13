@@ -1,0 +1,133 @@
+<%- include('html_head') %>
+<style>
+    body {
+        background-color: #f5f5f5;
+    }
+
+    button {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    #btnEdit {
+        width: 83.7px;
+    }
+</style>
+<%- include('html_head_foot') %>
+
+<div class="container">
+    <div class="row" id="msg-bar" style="display: none">
+        <div class="col">
+            <div class="alert" role="alert"></div>
+        </div>
+    </div>
+    <div id="formdiv" class="row" style="margin-top: 60px">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Edit</h5>
+
+                    <form name="form1" id="form1" method="POST" onsubmit="return checkForm()">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <label class="textLabel">帳號</label><br>
+                                <label class="inputLabel"><%= data.account %></label>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label class="textLabel" for="inputName">會員名稱 (請輸入4個字以上)</label>
+                                <input type="text" class="form-control" id="inputName" name="inputName"
+                                    value="<%= data.name %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label class="textLabel">性別</label><br>
+                                <label class="inputLabel"><%= data.gender %></label>
+                            </div>
+
+                            <div class="form-group col-md-4 align-self-end">
+                                <label class="textLabel" for="inputBirthYear">出生日期</label>
+                                <select class="form-control" name="inputBirthYear" id="inputBirthYear"
+                                    onchange="getDaysInMonth()">
+                                    <option value="" selected>年</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 align-self-end">
+                                <!-- <label class="inputCity"></label> -->
+                                <select class="form-control" name="inputBirthMonth" id="inputBirthMonth"
+                                    onchange="getDaysInMonth()">
+                                    <option value="" selected>月</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2 align-self-end">
+                                <!-- <label class="inputCity"></label> -->
+                                <select class="form-control" name="inputBirthDay" id="inputBirthDay">
+                                    <option value="" selected>日</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="textLabel" for="inputIdno">身份證字號</label><br>
+                                <label class="inputCity"><%= data.idNo %></label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="textLabel" for="inputPhoneNo">手機號碼</label>
+                                <input type="text" class="form-control" id="inputPhoneNo" name="inputPhoneNo"
+                                    pattern="[\d]{10}" value="<%= data.mobile %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="textLabel" for="email">Email</label>
+                                <input type="email" class="form-control" id="inputEmail" name="inputEmail"
+                                    value="<%= data.email %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label class="textLabel" for="email">通訊地址</label>
+                                <input type="text" class="form-control" id="inputAddress" name="inputAddress"
+                                    value="<%= data.address %>" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row justify-content-end">
+                            <button type="button" class="btn btn-primary" id="btnCancel" name="btnCancel"
+                                onclick="javascript:location.href='/memberList'">CANCEL</button>
+                            <button type="submit" class="btn btn-primary" id="btnEdit" name="btnEdit">Edit</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('scripts') %>
+<%- include('birthday') %>
+<script>
+    $(document).ready(function () {
+        getYearsnMonth();
+        getDaysInMonth();
+        getBirth();
+    });
+</script>
+
+<script>
+    function getBirth() {
+        const bth1 = <%- JSON.stringify(data.birth) %>;
+        bth2 = bth1.split(/[- :T]/);
+        console.log(bth2);
+        document.form1.inputBirthYear.value = bth2[0];
+        document.form1.inputBirthMonth.value = parseInt(bth2[1]);
+        document.form1.inputBirthDay.value = parseInt(bth2[2]) + 1;
+    }
+</script>
+<%- include('editCheckForm') %>
+<%- include('html_foot') %>

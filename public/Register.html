@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <script src="../lib/jquery-3.4.1.js"></script>
+    <script src="../bootstrap/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+    <link href="../bootstrap/css/form-validation.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Register</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col col-md-6">
+
+                <form id="form1"  method="POST" onsubmit="return checkForm()">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <label class="inputCity" for="inputAccount">帳號</label>
+                            <input type="text" class="form-control" id="inputAccount" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="inputCity" for="inputName">會員名稱</label>
+                            <input type="text" class="form-control" id="inputName" autofocus required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="inputCity" for="inputPassword1">密碼</label>
+                            <input type="password" class="form-control" id="inputPassword1" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="inputCity" for="inputPassword2">確認密碼</label>
+                            <input type="password" class="form-control" id="inputPassword2" required>
+                            <div class="invalid-feedback" id="checkPw">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label class="inputCity">性別</label><br>
+                            <div class="form-check form-check-inline">
+                                <input id="male" name="gender" type="radio" class="form-check-input" checked required>
+                                <label class="form-check-label" for="male">男</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="female" name="gender" type="radio" class="form-check-input">
+                                <label class="form-check-label" for="female">女</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 align-self-end">
+                            <label class="inputCity" for="inputBirthYear">出生日期</label>
+                            <select class="form-control" name="inputBirthYear" id="inputBirthYear"
+                                onchange="getDaysInMonth()">
+                                <option value="" selected>年</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2 align-self-end">
+                            <!-- <label class="inputCity"></label> -->
+                            <select class="form-control" name="inputBirthMonth" id="inputBirthMonth"
+                                onchange="getDaysInMonth()">
+                                <option value="" selected>月</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2 align-self-end">
+                            <!-- <label class="inputCity"></label> -->
+                            <select class="form-control" name="inputBirthDay" id="inputBirthDay">
+                                <option value="" selected>日</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label class="inputCity" for="inputIdno">身份證字號</label>
+                            <input type="text" class="form-control" id="inputIdno" pattern="[a-zA-Z]{1}[1-2]{1}[\d]{8}"
+                                required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="inputCity" for="inputPhoneNo">電話</label>
+                            <input type="text" class="form-control" id="inputPhoneNo" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="inputEmail" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4  align-self-end">
+                            <label class="inputCity">通訊地址</label>
+                            <select class="form-control" name="birthyear" id="inputCity" onchange="District()">
+                                <option value="" selected>選縣市</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6  align-self-end">
+                            <label class="inputAddress"></label>
+                            <select class="form-control" name="birthmonth" id="inputDistrict" onchange="autoAddress()">
+                                <option value="" selected>選地區</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2  align-self-end">
+                            <label class="inputCity"></label>
+                            <input type="text" class="form-control" id="inputDistrictNo">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="inputAddress"></label>
+                            <input type="text" class="form-control" id="inputAddress" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="btnRegister" name="btnRegister">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            getYearsnMonth();
+            getDaysInMonth();
+            // var btnSubmit = document.getElementById("btnsubmit");
+            // btnSubmit.addEventListener("click", checkIdNo);
+            // $("#btnsubmit").click(checkIdNo);
+            // City();
+        });
+
+        function getYearsnMonth() {
+            var date = new Date();
+            var year = date.getFullYear();
+            for (i = year - 100; i <= year; i++) {
+                $("#inputBirthYear").append("<option value=\"" + i + "\">" + i + " </option>");
+                // $("#inputBirthYear").append(`<option value= " ${i} "> ${i} </option>`);
+            }
+            for (i = 1; i <= 12; i++) {
+                $("#inputBirthMonth").append("<option value=\"" + i + "\">" + i + "</option>");
+                // $("#inputBirthMonth").append(`<option value= " ${i} "> ${i} </option>`);
+            }
+        };
+
+        function getDaysInMonth() {
+            var days = 0;
+            birthyear = $("#inputBirthYear").val();
+            birthmonth = $("#inputBirthMonth").val();
+            if (birthmonth == 2) {
+                if (birthyear % 400 == 0 || (birthyear % 4 == 0 && birthyear % 100 != 0)) {
+                    days = 29;
+                }
+                else {
+                    days = 28;
+                }
+            }
+            else if (birthmonth == 4 || birthmonth == 6 || birthmonth == 9 || birthmonth == 11) {
+                days = 30;
+            }
+            else {
+                days = 31;
+            }
+
+            $("#inputBirthDay").empty();
+            // $("#inputBirthDay").append(`<option value= "" selected> 日 </option>`);
+            $("#inputBirthDay").append("<option value=\"\">" + "日" + "</option>");
+            for (i = 1; i <= days; i++) {
+                $("#inputBirthDay").append("<option value=\" " + i + "\">" + i + "</option>");
+                // $("#inputBirthDay").append(`<option value= " ${i} "> ${i} </option>`);
+            }
+        };
+
+
+    </script>
+
+
+    <script src="../bootstrap/js/form-validation.js"></script>
+    <script>
+        function checkForm() {
+            IdNumber = $("#inputIdno").val();
+            // var IdNumber = 'F123123123';
+            IdArray = [];
+            IdRule = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
+            IdEn = ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O"];
+            IdEntoNum = [];
+            sum = 0;
+            for (i = 10; i <= 35; i++) {
+                IdEntoNum[i - 10] = i.toString();
+            }
+
+            IdArray = [].slice.call(IdNumber.toUpperCase());
+            EtN = IdEntoNum[IdEn.indexOf(IdArray.shift())];
+            EtNArray = [].slice.call(EtN);
+            newEtNArray = EtNArray.concat(IdArray);
+
+            for (i = 0; i <= 10; i++) {
+                sum += parseInt(newEtNArray[i]) * parseInt(IdRule[i]);
+            }
+            if (sum % 10 != 0) {
+                // alert("身份證字號有誤!!");
+                $('#inputIdno').attr('class','form-control is-invalid');
+                console.log("11111");
+                return false;
+            }
+            else{
+                $('#inputIdno').attr('class','form-control is-valid');
+
+            }
+
+            if ($('#inputPassword1').val() != $('#inputPassword2').val()) {
+                $('#inputPassword1').attr('class','form-control is-invalid');
+                $('#inputPassword2').attr('class','form-control is-invalid');
+                console.log("22222");
+                $("#checkPw").html("密碼不一致，請重新輸入");
+                return false;
+            }
+
+            // location.href = "Main.html";
+            // return true;
+            // return false;
+        };</script>
+</body>
+
+</html>
